@@ -24,7 +24,7 @@ class EmployeePage {
 
   async promoteFirstEmployee() {
     await this.page.getByRole("link", { name: "Edit" }).first().click();
-    await expect(this.page.getByRole("header", { name: "Edit Employee" })).toBeVisible();
+    await expect(this.page.getByRole("heading", { name: "Edit Employee" })).toBeVisible();
     await this.page.getByRole("link", { name: "Promote as manager" }).click();
     await expect(this.page.getByRole("heading", { name: "Promote employee" })).toBeVisible();
     await this.page.getByRole("button", { name: "Proceed" }).click();
