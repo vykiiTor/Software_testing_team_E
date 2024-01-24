@@ -12,6 +12,10 @@ class EmployeePage {
     await expect(this.page.getByRole("heading", { name: "Add new employee" })).toBeVisible();
   }
 
+  async expectNotVisibleHeader(name) {
+    await expect(this.page.getByRole("heading", { name: name }).count()).toBe(0);
+  }
+
   async gotoListEmployeesPage() {
     await this.page.goto(BASE_URL);
     await this.page.getByRole("link", { name: "List Employees" }).click();
@@ -48,23 +52,12 @@ class EmployeePage {
     await expect(this.page.getByRole("heading", { name: headingName })).toBeVisible();
   }
 
-  async addToTeam() {
-    await this.page.goto(BASE_URL);
-    await this.page.getByRole("link", { name: "List Employees" }).click();
-    await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible();
+  async addFirstEmployeeToTeam() {
     await this.page.getByRole("link", { name: "Edit" }).first().click();
-    await expect(page.getByRole("heading", { name: "Edit Employee" })).toBeVisible();
+    await expect(this.page.getByRole("heading", { name: "Edit Employee" })).toBeVisible();
     await this.page.getByRole("link", { name: "Add to team" }).click();
     await this.page.getByLabel("Team").selectOption("biduleurs team");
     await this.page.getByRole("button", { name: "Add" }).click();
-    await expect(page.getByRole("heading", { name: "Edit Employee" })).toBeVisible();
-  }
-
-  async checkFirstEmployeeTeam() {
-    await this.page.getByRole("link", { name: "List Employees" }).click();
-    await expect(page.getByRole("heading", { name: "Employees" })).toBeVisible();
-    await this.page.getByRole("link", { name: "Edit" }).first().click();
-    await this.page.getByRole("link", { name: "Add to team" }).click();
   }
 }
 

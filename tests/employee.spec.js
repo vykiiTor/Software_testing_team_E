@@ -121,10 +121,18 @@ test("Do not show promote button if employee is already manager", async ({ page 
   await page.getByRole("link", { name: "Edit" }).first().click();
   await expect(page.getByRole("heading", { name: "Edit Employee" })).toBeVisible();
   // expect to not have the promote button
-  await expect(page.getByRole("heading", { name: "Promote as manager" }).count()).toBe(0);
+  await employeePage.expectNotVisibleHeader("Promote as manager");
 });
 
 test("Do not display the team he's currently in", async ({ page }) => {
   const employeePage = new EmployeePage(page);
-  await employeePage.addToTeam();
+  await employeePage.gotoListEmployeesPage();
+
+  await employeePage.addFirstEmployeeToTeam();
+  await employeePage.expectHeadingVisible("Edit Employee");
+
+  await employeePage.gotoListEmployeesPage();
+
+  await employeePage.addFirstEmployeeToTeam();
+  await employeePage.expectNotVisibleHeader("Edit Employee");
 });
