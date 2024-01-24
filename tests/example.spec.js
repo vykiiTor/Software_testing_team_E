@@ -1,19 +1,26 @@
 // @ts-check
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require("@playwright/test");
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+const BASE_URL = "https://e.hr.dmerej.info/";
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+test("Add new employee", async ({ page }) => {
+  await page.goto(BASE_URL);
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+  // Click the add new employee link.
+  await page.getByRole("link", { name: "Add new employee" }).click();
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+  // Expects page to have a heading with the name of Add new employee.
+  await expect(page.getByRole("heading", { name: "Add new employee" })).toBeVisible();
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  // Fill the form
+  await page.fill('[name="name"]', "John Doe");
+  await page.fill('[name="email"]', "johndoe@gmail.com");
+  await page.fill('[name="address_line1"]', "10 rue de la paix");
+  await page.fill('[name="city"]', "Paris");
+  await page.fill('[name="zip_code"]', "75001");
+  await page.fill('[name="hiring_date"]', "2021-01-01");
+  await page.fill('[name="job_title"]', "Software Engineer");
+
+  // Submit the form
+  await page.click('[type="submit"]');
 });
